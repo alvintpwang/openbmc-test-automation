@@ -1,0 +1,1281 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generator="Robot 3.1.2 (Python 2.7.12 on linux2)" rpa="false" generated="20191018 22:47:39.399">
+<suite name="Tests &amp; Redfish" id="s1">
+<suite name="Tests" source="/home/alvin/openbmc-test-automation/tests" id="s1-s1">
+<kw name="System Driver Data" type="setup">
+<doc>System driver information and enable defaults settings.</doc>
+<kw name="Run Keyword And Ignore Error" library="BuiltIn">
+<doc>Runs the given keyword with the given arguments and ignores possible error.</doc>
+<arguments>
+<arg>Clear System Entry From Knownhosts</arg>
+</arguments>
+<kw name="Clear System Entry From Knownhosts" library="connection_client">
+<doc>Delete OPENBMC_HOST entry from known_hosts file.</doc>
+<kw name="Set Variable" library="BuiltIn">
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<arguments>
+<arg>sed '/${OPENBMC_HOST}/d' -i ~/.ssh/known_hosts</arg>
+</arguments>
+<assign>
+<var>${cmd}</var>
+</assign>
+<msg level="INFO" timestamp="20191018 22:47:40.351">${cmd} = sed '/192.168.1.139/d' -i ~/.ssh/known_hosts</msg>
+<status endtime="20191018 22:47:40.351" status="PASS" starttime="20191018 22:47:40.351"></status>
+</kw>
+<kw name="Run And Return Rc And Output" library="OperatingSystem">
+<doc>Runs the given command in the system and returns the RC and output.</doc>
+<arguments>
+<arg>${cmd}</arg>
+</arguments>
+<assign>
+<var>${rc}</var>
+<var>${output}</var>
+</assign>
+<msg level="INFO" timestamp="20191018 22:47:40.353">Running command 'sed '/192.168.1.139/d' -i ~/.ssh/known_hosts 2&gt;&amp;1'.</msg>
+<msg level="INFO" timestamp="20191018 22:47:40.355">${rc} = 0</msg>
+<msg level="INFO" timestamp="20191018 22:47:40.356">${output} = </msg>
+<status endtime="20191018 22:47:40.356" status="PASS" starttime="20191018 22:47:40.352"></status>
+</kw>
+<status endtime="20191018 22:47:40.356" status="PASS" starttime="20191018 22:47:40.351"></status>
+</kw>
+<status endtime="20191018 22:47:40.356" status="PASS" starttime="20191018 22:47:40.350"></status>
+</kw>
+<kw name="Wait Until Keyword Succeeds" library="BuiltIn">
+<doc>Runs the specified keyword and retries if it fails.</doc>
+<arguments>
+<arg>2 min</arg>
+<arg>30 sec</arg>
+<arg>Open Connection And Log In</arg>
+</arguments>
+<kw name="Open Connection And Log In" library="connection_client">
+<doc>Opens a connection with the given arguments, and logs in.
+Defaults to logging into the BMC.</doc>
+<kw name="Run Keyword And Return Status" library="BuiltIn">
+<doc>Runs the given keyword with given arguments and returns the status as a Boolean value.</doc>
+<arguments>
+<arg>Dictionary Should Contain Key</arg>
+<arg>${connection_args}</arg>
+<arg>host</arg>
+</arguments>
+<assign>
+<var>${has_host}</var>
+</assign>
+<kw name="Dictionary Should Contain Key" library="Collections">
+<doc>Fails if ``key`` is not found from ``dictionary``.</doc>
+<arguments>
+<arg>${connection_args}</arg>
+<arg>host</arg>
+</arguments>
+<msg level="FAIL" timestamp="20191018 22:47:40.359">Dictionary does not contain key 'host'.</msg>
+<status endtime="20191018 22:47:40.359" status="FAIL" starttime="20191018 22:47:40.358"></status>
+</kw>
+<msg level="INFO" timestamp="20191018 22:47:40.359">${has_host} = False</msg>
+<status endtime="20191018 22:47:40.359" status="PASS" starttime="20191018 22:47:40.358"></status>
+</kw>
+<kw name="Run Keyword If" library="BuiltIn">
+<doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
+<arguments>
+<arg>${has_host} == ${FALSE}</arg>
+<arg>Set To Dictionary</arg>
+<arg>${connection_args}</arg>
+<arg>host=${OPENBMC_HOST}</arg>
+</arguments>
+<kw name="Set To Dictionary" library="Collections">
+<doc>Adds the given ``key_value_pairs`` and ``items`` to the ``dictionary``.</doc>
+<arguments>
+<arg>${connection_args}</arg>
+<arg>host=${OPENBMC_HOST}</arg>
+</arguments>
+<status endtime="20191018 22:47:40.360" status="PASS" starttime="20191018 22:47:40.360"></status>
+</kw>
+<status endtime="20191018 22:47:40.360" status="PASS" starttime="20191018 22:47:40.359"></status>
+</kw>
+<kw name="Run Keyword If" library="BuiltIn">
+<doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
+<arguments>
+<arg>'${SSH_PORT}' != '${EMPTY}' and '${HTTPS_PORT}' != '${EMPTY}'</arg>
+<arg>User input SSH and HTTPs Ports</arg>
+</arguments>
+<status endtime="20191018 22:47:40.361" status="PASS" starttime="20191018 22:47:40.361"></status>
+</kw>
+<kw name="Run Keyword And Return Status" library="BuiltIn">
+<doc>Runs the given keyword with given arguments and returns the status as a Boolean value.</doc>
+<arguments>
+<arg>Dictionary Should Contain Key</arg>
+<arg>${connection_args}</arg>
+<arg>port</arg>
+</arguments>
+<assign>
+<var>${has_port}</var>
+</assign>
+<kw name="Dictionary Should Contain Key" library="Collections">
+<doc>Fails if ``key`` is not found from ``dictionary``.</doc>
+<arguments>
+<arg>${connection_args}</arg>
+<arg>port</arg>
+</arguments>
+<msg level="FAIL" timestamp="20191018 22:47:40.362">Dictionary does not contain key 'port'.</msg>
+<status endtime="20191018 22:47:40.362" status="FAIL" starttime="20191018 22:47:40.362"></status>
+</kw>
+<msg level="INFO" timestamp="20191018 22:47:40.363">${has_port} = False</msg>
+<status endtime="20191018 22:47:40.363" status="PASS" starttime="20191018 22:47:40.362"></status>
+</kw>
+<kw name="Run Keyword If" library="BuiltIn">
+<doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
+<arguments>
+<arg>'${SSH_PORT}' != '${EMPTY}' and ${has_port} == ${FALSE}</arg>
+<arg>Run Keywords</arg>
+<arg>Set To Dictionary</arg>
+<arg>${connection_args}</arg>
+<arg>port=${SSH_PORT}</arg>
+<arg>AND</arg>
+<arg>SSHLibrary.Open connection</arg>
+<arg>&amp;{connection_args}</arg>
+<arg>ELSE</arg>
+<arg>Run Keyword</arg>
+<arg>SSHLibrary.Open connection</arg>
+<arg>&amp;{connection_args}</arg>
+</arguments>
+<kw name="Run Keyword" library="BuiltIn">
+<doc>Executes the given keyword with the given arguments.</doc>
+<arguments>
+<arg>SSHLibrary.Open connection</arg>
+<arg>&amp;{connection_args}</arg>
+</arguments>
+<kw name="Open Connection" library="SSHLibrary">
+<doc>Opens a new SSH connection to the given ``host`` and ``port``.</doc>
+<arguments>
+<arg>&amp;{connection_args}</arg>
+</arguments>
+<status endtime="20191018 22:47:40.365" status="PASS" starttime="20191018 22:47:40.364"></status>
+</kw>
+<status endtime="20191018 22:47:40.365" status="PASS" starttime="20191018 22:47:40.364"></status>
+</kw>
+<status endtime="20191018 22:47:40.365" status="PASS" starttime="20191018 22:47:40.363"></status>
+</kw>
+<kw name="Login" library="SSHLibrary">
+<doc>Logs into the SSH server with the given ``username`` and ``password``.</doc>
+<arguments>
+<arg>${username}</arg>
+<arg>${password}</arg>
+</arguments>
+<msg level="INFO" timestamp="20191018 22:47:40.365">Logging into '192.168.1.139:22' as 'root'.</msg>
+<msg level="FAIL" timestamp="20191018 22:47:40.570">SSHException: Incompatible ssh peer (no acceptable kex algorithm)</msg>
+<status endtime="20191018 22:47:40.570" status="FAIL" starttime="20191018 22:47:40.365"></status>
+</kw>
+<status endtime="20191018 22:47:40.571" status="FAIL" starttime="20191018 22:47:40.357"></status>
+</kw>
+<kw name="Open Connection And Log In" library="connection_client">
+<doc>Opens a connection with the given arguments, and logs in.
+Defaults to logging into the BMC.</doc>
+<kw name="Run Keyword And Return Status" library="BuiltIn">
+<doc>Runs the given keyword with given arguments and returns the status as a Boolean value.</doc>
+<arguments>
+<arg>Dictionary Should Contain Key</arg>
+<arg>${connection_args}</arg>
+<arg>host</arg>
+</arguments>
+<assign>
+<var>${has_host}</var>
+</assign>
+<kw name="Dictionary Should Contain Key" library="Collections">
+<doc>Fails if ``key`` is not found from ``dictionary``.</doc>
+<arguments>
+<arg>${connection_args}</arg>
+<arg>host</arg>
+</arguments>
+<msg level="FAIL" timestamp="20191018 22:48:10.577">Dictionary does not contain key 'host'.</msg>
+<status endtime="20191018 22:48:10.577" status="FAIL" starttime="20191018 22:48:10.576"></status>
+</kw>
+<msg level="INFO" timestamp="20191018 22:48:10.577">${has_host} = False</msg>
+<status endtime="20191018 22:48:10.577" status="PASS" starttime="20191018 22:48:10.574"></status>
+</kw>
+<kw name="Run Keyword If" library="BuiltIn">
+<doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
+<arguments>
+<arg>${has_host} == ${FALSE}</arg>
+<arg>Set To Dictionary</arg>
+<arg>${connection_args}</arg>
+<arg>host=${OPENBMC_HOST}</arg>
+</arguments>
+<kw name="Set To Dictionary" library="Collections">
+<doc>Adds the given ``key_value_pairs`` and ``items`` to the ``dictionary``.</doc>
+<arguments>
+<arg>${connection_args}</arg>
+<arg>host=${OPENBMC_HOST}</arg>
+</arguments>
+<status endtime="20191018 22:48:10.579" status="PASS" starttime="20191018 22:48:10.579"></status>
+</kw>
+<status endtime="20191018 22:48:10.579" status="PASS" starttime="20191018 22:48:10.578"></status>
+</kw>
+<kw name="Run Keyword If" library="BuiltIn">
+<doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
+<arguments>
+<arg>'${SSH_PORT}' != '${EMPTY}' and '${HTTPS_PORT}' != '${EMPTY}'</arg>
+<arg>User input SSH and HTTPs Ports</arg>
+</arguments>
+<status endtime="20191018 22:48:10.580" status="PASS" starttime="20191018 22:48:10.580"></status>
+</kw>
+<kw name="Run Keyword And Return Status" library="BuiltIn">
+<doc>Runs the given keyword with given arguments and returns the status as a Boolean value.</doc>
+<arguments>
+<arg>Dictionary Should Contain Key</arg>
+<arg>${connection_args}</arg>
+<arg>port</arg>
+</arguments>
+<assign>
+<var>${has_port}</var>
+</assign>
+<kw name="Dictionary Should Contain Key" library="Collections">
+<doc>Fails if ``key`` is not found from ``dictionary``.</doc>
+<arguments>
+<arg>${connection_args}</arg>
+<arg>port</arg>
+</arguments>
+<msg level="FAIL" timestamp="20191018 22:48:10.582">Dictionary does not contain key 'port'.</msg>
+<status endtime="20191018 22:48:10.582" status="FAIL" starttime="20191018 22:48:10.581"></status>
+</kw>
+<msg level="INFO" timestamp="20191018 22:48:10.582">${has_port} = False</msg>
+<status endtime="20191018 22:48:10.582" status="PASS" starttime="20191018 22:48:10.581"></status>
+</kw>
+<kw name="Run Keyword If" library="BuiltIn">
+<doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
+<arguments>
+<arg>'${SSH_PORT}' != '${EMPTY}' and ${has_port} == ${FALSE}</arg>
+<arg>Run Keywords</arg>
+<arg>Set To Dictionary</arg>
+<arg>${connection_args}</arg>
+<arg>port=${SSH_PORT}</arg>
+<arg>AND</arg>
+<arg>SSHLibrary.Open connection</arg>
+<arg>&amp;{connection_args}</arg>
+<arg>ELSE</arg>
+<arg>Run Keyword</arg>
+<arg>SSHLibrary.Open connection</arg>
+<arg>&amp;{connection_args}</arg>
+</arguments>
+<kw name="Run Keyword" library="BuiltIn">
+<doc>Executes the given keyword with the given arguments.</doc>
+<arguments>
+<arg>SSHLibrary.Open connection</arg>
+<arg>&amp;{connection_args}</arg>
+</arguments>
+<kw name="Open Connection" library="SSHLibrary">
+<doc>Opens a new SSH connection to the given ``host`` and ``port``.</doc>
+<arguments>
+<arg>&amp;{connection_args}</arg>
+</arguments>
+<status endtime="20191018 22:48:10.585" status="PASS" starttime="20191018 22:48:10.584"></status>
+</kw>
+<status endtime="20191018 22:48:10.585" status="PASS" starttime="20191018 22:48:10.584"></status>
+</kw>
+<status endtime="20191018 22:48:10.585" status="PASS" starttime="20191018 22:48:10.583"></status>
+</kw>
+<kw name="Login" library="SSHLibrary">
+<doc>Logs into the SSH server with the given ``username`` and ``password``.</doc>
+<arguments>
+<arg>${username}</arg>
+<arg>${password}</arg>
+</arguments>
+<msg level="INFO" timestamp="20191018 22:48:10.586">Logging into '192.168.1.139:22' as 'root'.</msg>
+<msg level="FAIL" timestamp="20191018 22:48:10.789">SSHException: Incompatible ssh peer (no acceptable kex algorithm)</msg>
+<status endtime="20191018 22:48:10.789" status="FAIL" starttime="20191018 22:48:10.585"></status>
+</kw>
+<status endtime="20191018 22:48:10.789" status="FAIL" starttime="20191018 22:48:10.572"></status>
+</kw>
+<kw name="Open Connection And Log In" library="connection_client">
+<doc>Opens a connection with the given arguments, and logs in.
+Defaults to logging into the BMC.</doc>
+<kw name="Run Keyword And Return Status" library="BuiltIn">
+<doc>Runs the given keyword with given arguments and returns the status as a Boolean value.</doc>
+<arguments>
+<arg>Dictionary Should Contain Key</arg>
+<arg>${connection_args}</arg>
+<arg>host</arg>
+</arguments>
+<assign>
+<var>${has_host}</var>
+</assign>
+<kw name="Dictionary Should Contain Key" library="Collections">
+<doc>Fails if ``key`` is not found from ``dictionary``.</doc>
+<arguments>
+<arg>${connection_args}</arg>
+<arg>host</arg>
+</arguments>
+<msg level="FAIL" timestamp="20191018 22:48:40.796">Dictionary does not contain key 'host'.</msg>
+<status endtime="20191018 22:48:40.796" status="FAIL" starttime="20191018 22:48:40.794"></status>
+</kw>
+<msg level="INFO" timestamp="20191018 22:48:40.796">${has_host} = False</msg>
+<status endtime="20191018 22:48:40.796" status="PASS" starttime="20191018 22:48:40.793"></status>
+</kw>
+<kw name="Run Keyword If" library="BuiltIn">
+<doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
+<arguments>
+<arg>${has_host} == ${FALSE}</arg>
+<arg>Set To Dictionary</arg>
+<arg>${connection_args}</arg>
+<arg>host=${OPENBMC_HOST}</arg>
+</arguments>
+<kw name="Set To Dictionary" library="Collections">
+<doc>Adds the given ``key_value_pairs`` and ``items`` to the ``dictionary``.</doc>
+<arguments>
+<arg>${connection_args}</arg>
+<arg>host=${OPENBMC_HOST}</arg>
+</arguments>
+<status endtime="20191018 22:48:40.798" status="PASS" starttime="20191018 22:48:40.797"></status>
+</kw>
+<status endtime="20191018 22:48:40.798" status="PASS" starttime="20191018 22:48:40.796"></status>
+</kw>
+<kw name="Run Keyword If" library="BuiltIn">
+<doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
+<arguments>
+<arg>'${SSH_PORT}' != '${EMPTY}' and '${HTTPS_PORT}' != '${EMPTY}'</arg>
+<arg>User input SSH and HTTPs Ports</arg>
+</arguments>
+<status endtime="20191018 22:48:40.799" status="PASS" starttime="20191018 22:48:40.798"></status>
+</kw>
+<kw name="Run Keyword And Return Status" library="BuiltIn">
+<doc>Runs the given keyword with given arguments and returns the status as a Boolean value.</doc>
+<arguments>
+<arg>Dictionary Should Contain Key</arg>
+<arg>${connection_args}</arg>
+<arg>port</arg>
+</arguments>
+<assign>
+<var>${has_port}</var>
+</assign>
+<kw name="Dictionary Should Contain Key" library="Collections">
+<doc>Fails if ``key`` is not found from ``dictionary``.</doc>
+<arguments>
+<arg>${connection_args}</arg>
+<arg>port</arg>
+</arguments>
+<msg level="FAIL" timestamp="20191018 22:48:40.801">Dictionary does not contain key 'port'.</msg>
+<status endtime="20191018 22:48:40.801" status="FAIL" starttime="20191018 22:48:40.800"></status>
+</kw>
+<msg level="INFO" timestamp="20191018 22:48:40.801">${has_port} = False</msg>
+<status endtime="20191018 22:48:40.801" status="PASS" starttime="20191018 22:48:40.800"></status>
+</kw>
+<kw name="Run Keyword If" library="BuiltIn">
+<doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
+<arguments>
+<arg>'${SSH_PORT}' != '${EMPTY}' and ${has_port} == ${FALSE}</arg>
+<arg>Run Keywords</arg>
+<arg>Set To Dictionary</arg>
+<arg>${connection_args}</arg>
+<arg>port=${SSH_PORT}</arg>
+<arg>AND</arg>
+<arg>SSHLibrary.Open connection</arg>
+<arg>&amp;{connection_args}</arg>
+<arg>ELSE</arg>
+<arg>Run Keyword</arg>
+<arg>SSHLibrary.Open connection</arg>
+<arg>&amp;{connection_args}</arg>
+</arguments>
+<kw name="Run Keyword" library="BuiltIn">
+<doc>Executes the given keyword with the given arguments.</doc>
+<arguments>
+<arg>SSHLibrary.Open connection</arg>
+<arg>&amp;{connection_args}</arg>
+</arguments>
+<kw name="Open Connection" library="SSHLibrary">
+<doc>Opens a new SSH connection to the given ``host`` and ``port``.</doc>
+<arguments>
+<arg>&amp;{connection_args}</arg>
+</arguments>
+<status endtime="20191018 22:48:40.804" status="PASS" starttime="20191018 22:48:40.803"></status>
+</kw>
+<status endtime="20191018 22:48:40.804" status="PASS" starttime="20191018 22:48:40.803"></status>
+</kw>
+<status endtime="20191018 22:48:40.804" status="PASS" starttime="20191018 22:48:40.802"></status>
+</kw>
+<kw name="Login" library="SSHLibrary">
+<doc>Logs into the SSH server with the given ``username`` and ``password``.</doc>
+<arguments>
+<arg>${username}</arg>
+<arg>${password}</arg>
+</arguments>
+<msg level="INFO" timestamp="20191018 22:48:40.805">Logging into '192.168.1.139:22' as 'root'.</msg>
+<msg level="FAIL" timestamp="20191018 22:48:40.939">SSHException: Incompatible ssh peer (no acceptable kex algorithm)</msg>
+<status endtime="20191018 22:48:40.940" status="FAIL" starttime="20191018 22:48:40.805"></status>
+</kw>
+<status endtime="20191018 22:48:40.940" status="FAIL" starttime="20191018 22:48:40.790"></status>
+</kw>
+<kw name="Open Connection And Log In" library="connection_client">
+<doc>Opens a connection with the given arguments, and logs in.
+Defaults to logging into the BMC.</doc>
+<kw name="Run Keyword And Return Status" library="BuiltIn">
+<doc>Runs the given keyword with given arguments and returns the status as a Boolean value.</doc>
+<arguments>
+<arg>Dictionary Should Contain Key</arg>
+<arg>${connection_args}</arg>
+<arg>host</arg>
+</arguments>
+<assign>
+<var>${has_host}</var>
+</assign>
+<kw name="Dictionary Should Contain Key" library="Collections">
+<doc>Fails if ``key`` is not found from ``dictionary``.</doc>
+<arguments>
+<arg>${connection_args}</arg>
+<arg>host</arg>
+</arguments>
+<msg level="FAIL" timestamp="20191018 22:49:10.946">Dictionary does not contain key 'host'.</msg>
+<status endtime="20191018 22:49:10.946" status="FAIL" starttime="20191018 22:49:10.945"></status>
+</kw>
+<msg level="INFO" timestamp="20191018 22:49:10.946">${has_host} = False</msg>
+<status endtime="20191018 22:49:10.947" status="PASS" starttime="20191018 22:49:10.944"></status>
+</kw>
+<kw name="Run Keyword If" library="BuiltIn">
+<doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
+<arguments>
+<arg>${has_host} == ${FALSE}</arg>
+<arg>Set To Dictionary</arg>
+<arg>${connection_args}</arg>
+<arg>host=${OPENBMC_HOST}</arg>
+</arguments>
+<kw name="Set To Dictionary" library="Collections">
+<doc>Adds the given ``key_value_pairs`` and ``items`` to the ``dictionary``.</doc>
+<arguments>
+<arg>${connection_args}</arg>
+<arg>host=${OPENBMC_HOST}</arg>
+</arguments>
+<status endtime="20191018 22:49:10.949" status="PASS" starttime="20191018 22:49:10.949"></status>
+</kw>
+<status endtime="20191018 22:49:10.949" status="PASS" starttime="20191018 22:49:10.947"></status>
+</kw>
+<kw name="Run Keyword If" library="BuiltIn">
+<doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
+<arguments>
+<arg>'${SSH_PORT}' != '${EMPTY}' and '${HTTPS_PORT}' != '${EMPTY}'</arg>
+<arg>User input SSH and HTTPs Ports</arg>
+</arguments>
+<status endtime="20191018 22:49:10.950" status="PASS" starttime="20191018 22:49:10.949"></status>
+</kw>
+<kw name="Run Keyword And Return Status" library="BuiltIn">
+<doc>Runs the given keyword with given arguments and returns the status as a Boolean value.</doc>
+<arguments>
+<arg>Dictionary Should Contain Key</arg>
+<arg>${connection_args}</arg>
+<arg>port</arg>
+</arguments>
+<assign>
+<var>${has_port}</var>
+</assign>
+<kw name="Dictionary Should Contain Key" library="Collections">
+<doc>Fails if ``key`` is not found from ``dictionary``.</doc>
+<arguments>
+<arg>${connection_args}</arg>
+<arg>port</arg>
+</arguments>
+<msg level="FAIL" timestamp="20191018 22:49:10.951">Dictionary does not contain key 'port'.</msg>
+<status endtime="20191018 22:49:10.951" status="FAIL" starttime="20191018 22:49:10.951"></status>
+</kw>
+<msg level="INFO" timestamp="20191018 22:49:10.952">${has_port} = False</msg>
+<status endtime="20191018 22:49:10.952" status="PASS" starttime="20191018 22:49:10.950"></status>
+</kw>
+<kw name="Run Keyword If" library="BuiltIn">
+<doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
+<arguments>
+<arg>'${SSH_PORT}' != '${EMPTY}' and ${has_port} == ${FALSE}</arg>
+<arg>Run Keywords</arg>
+<arg>Set To Dictionary</arg>
+<arg>${connection_args}</arg>
+<arg>port=${SSH_PORT}</arg>
+<arg>AND</arg>
+<arg>SSHLibrary.Open connection</arg>
+<arg>&amp;{connection_args}</arg>
+<arg>ELSE</arg>
+<arg>Run Keyword</arg>
+<arg>SSHLibrary.Open connection</arg>
+<arg>&amp;{connection_args}</arg>
+</arguments>
+<kw name="Run Keyword" library="BuiltIn">
+<doc>Executes the given keyword with the given arguments.</doc>
+<arguments>
+<arg>SSHLibrary.Open connection</arg>
+<arg>&amp;{connection_args}</arg>
+</arguments>
+<kw name="Open Connection" library="SSHLibrary">
+<doc>Opens a new SSH connection to the given ``host`` and ``port``.</doc>
+<arguments>
+<arg>&amp;{connection_args}</arg>
+</arguments>
+<status endtime="20191018 22:49:10.954" status="PASS" starttime="20191018 22:49:10.953"></status>
+</kw>
+<status endtime="20191018 22:49:10.954" status="PASS" starttime="20191018 22:49:10.953"></status>
+</kw>
+<status endtime="20191018 22:49:10.954" status="PASS" starttime="20191018 22:49:10.952"></status>
+</kw>
+<kw name="Login" library="SSHLibrary">
+<doc>Logs into the SSH server with the given ``username`` and ``password``.</doc>
+<arguments>
+<arg>${username}</arg>
+<arg>${password}</arg>
+</arguments>
+<msg level="INFO" timestamp="20191018 22:49:10.955">Logging into '192.168.1.139:22' as 'root'.</msg>
+<msg level="FAIL" timestamp="20191018 22:49:11.122">SSHException: Incompatible ssh peer (no acceptable kex algorithm)</msg>
+<status endtime="20191018 22:49:11.122" status="FAIL" starttime="20191018 22:49:10.954"></status>
+</kw>
+<status endtime="20191018 22:49:11.122" status="FAIL" starttime="20191018 22:49:10.941"></status>
+</kw>
+<kw name="Open Connection And Log In" library="connection_client">
+<doc>Opens a connection with the given arguments, and logs in.
+Defaults to logging into the BMC.</doc>
+<kw name="Run Keyword And Return Status" library="BuiltIn">
+<doc>Runs the given keyword with given arguments and returns the status as a Boolean value.</doc>
+<arguments>
+<arg>Dictionary Should Contain Key</arg>
+<arg>${connection_args}</arg>
+<arg>host</arg>
+</arguments>
+<assign>
+<var>${has_host}</var>
+</assign>
+<kw name="Dictionary Should Contain Key" library="Collections">
+<doc>Fails if ``key`` is not found from ``dictionary``.</doc>
+<arguments>
+<arg>${connection_args}</arg>
+<arg>host</arg>
+</arguments>
+<msg level="FAIL" timestamp="20191018 22:49:41.128">Dictionary does not contain key 'host'.</msg>
+<status endtime="20191018 22:49:41.129" status="FAIL" starttime="20191018 22:49:41.127"></status>
+</kw>
+<msg level="INFO" timestamp="20191018 22:49:41.129">${has_host} = False</msg>
+<status endtime="20191018 22:49:41.129" status="PASS" starttime="20191018 22:49:41.126"></status>
+</kw>
+<kw name="Run Keyword If" library="BuiltIn">
+<doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
+<arguments>
+<arg>${has_host} == ${FALSE}</arg>
+<arg>Set To Dictionary</arg>
+<arg>${connection_args}</arg>
+<arg>host=${OPENBMC_HOST}</arg>
+</arguments>
+<kw name="Set To Dictionary" library="Collections">
+<doc>Adds the given ``key_value_pairs`` and ``items`` to the ``dictionary``.</doc>
+<arguments>
+<arg>${connection_args}</arg>
+<arg>host=${OPENBMC_HOST}</arg>
+</arguments>
+<status endtime="20191018 22:49:41.132" status="PASS" starttime="20191018 22:49:41.131"></status>
+</kw>
+<status endtime="20191018 22:49:41.132" status="PASS" starttime="20191018 22:49:41.130"></status>
+</kw>
+<kw name="Run Keyword If" library="BuiltIn">
+<doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
+<arguments>
+<arg>'${SSH_PORT}' != '${EMPTY}' and '${HTTPS_PORT}' != '${EMPTY}'</arg>
+<arg>User input SSH and HTTPs Ports</arg>
+</arguments>
+<status endtime="20191018 22:49:41.133" status="PASS" starttime="20191018 22:49:41.132"></status>
+</kw>
+<kw name="Run Keyword And Return Status" library="BuiltIn">
+<doc>Runs the given keyword with given arguments and returns the status as a Boolean value.</doc>
+<arguments>
+<arg>Dictionary Should Contain Key</arg>
+<arg>${connection_args}</arg>
+<arg>port</arg>
+</arguments>
+<assign>
+<var>${has_port}</var>
+</assign>
+<kw name="Dictionary Should Contain Key" library="Collections">
+<doc>Fails if ``key`` is not found from ``dictionary``.</doc>
+<arguments>
+<arg>${connection_args}</arg>
+<arg>port</arg>
+</arguments>
+<msg level="FAIL" timestamp="20191018 22:49:41.134">Dictionary does not contain key 'port'.</msg>
+<status endtime="20191018 22:49:41.134" status="FAIL" starttime="20191018 22:49:41.134"></status>
+</kw>
+<msg level="INFO" timestamp="20191018 22:49:41.134">${has_port} = False</msg>
+<status endtime="20191018 22:49:41.134" status="PASS" starttime="20191018 22:49:41.133"></status>
+</kw>
+<kw name="Run Keyword If" library="BuiltIn">
+<doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
+<arguments>
+<arg>'${SSH_PORT}' != '${EMPTY}' and ${has_port} == ${FALSE}</arg>
+<arg>Run Keywords</arg>
+<arg>Set To Dictionary</arg>
+<arg>${connection_args}</arg>
+<arg>port=${SSH_PORT}</arg>
+<arg>AND</arg>
+<arg>SSHLibrary.Open connection</arg>
+<arg>&amp;{connection_args}</arg>
+<arg>ELSE</arg>
+<arg>Run Keyword</arg>
+<arg>SSHLibrary.Open connection</arg>
+<arg>&amp;{connection_args}</arg>
+</arguments>
+<kw name="Run Keyword" library="BuiltIn">
+<doc>Executes the given keyword with the given arguments.</doc>
+<arguments>
+<arg>SSHLibrary.Open connection</arg>
+<arg>&amp;{connection_args}</arg>
+</arguments>
+<kw name="Open Connection" library="SSHLibrary">
+<doc>Opens a new SSH connection to the given ``host`` and ``port``.</doc>
+<arguments>
+<arg>&amp;{connection_args}</arg>
+</arguments>
+<status endtime="20191018 22:49:41.137" status="PASS" starttime="20191018 22:49:41.136"></status>
+</kw>
+<status endtime="20191018 22:49:41.137" status="PASS" starttime="20191018 22:49:41.136"></status>
+</kw>
+<status endtime="20191018 22:49:41.137" status="PASS" starttime="20191018 22:49:41.135"></status>
+</kw>
+<kw name="Login" library="SSHLibrary">
+<doc>Logs into the SSH server with the given ``username`` and ``password``.</doc>
+<arguments>
+<arg>${username}</arg>
+<arg>${password}</arg>
+</arguments>
+<msg level="INFO" timestamp="20191018 22:49:41.138">Logging into '192.168.1.139:22' as 'root'.</msg>
+<msg level="FAIL" timestamp="20191018 22:49:41.304">SSHException: Incompatible ssh peer (no acceptable kex algorithm)</msg>
+<status endtime="20191018 22:49:41.304" status="FAIL" starttime="20191018 22:49:41.137"></status>
+</kw>
+<status endtime="20191018 22:49:41.305" status="FAIL" starttime="20191018 22:49:41.124"></status>
+</kw>
+<msg level="FAIL" timestamp="20191018 22:49:41.305">Keyword 'Open Connection And Log In' failed after retrying for 2 minutes. The last error was: SSHException: Incompatible ssh peer (no acceptable kex algorithm)</msg>
+<status endtime="20191018 22:49:41.305" status="FAIL" starttime="20191018 22:47:40.356"></status>
+</kw>
+<status endtime="20191018 22:49:41.306" status="FAIL" starttime="20191018 22:47:40.350"></status>
+</kw>
+<suite name="Security" source="/home/alvin/openbmc-test-automation/tests/security" id="s1-s1-s1">
+<suite name="Test Ssl" source="/home/alvin/openbmc-test-automation/tests/security/test_ssl.robot" id="s1-s1-s1-s1">
+<test name="Test SSL Connection" id="s1-s1-s1-s1-t1">
+<doc>This testcase is for testing the SSL connection to the
+OpenBMC machine.</doc>
+<tags>
+<tag>Test_SSL_Connection</tag>
+</tags>
+<status endtime="20191018 22:49:41.311" status="FAIL" critical="yes" starttime="20191018 22:49:41.309">Parent suite setup failed:
+Keyword 'Open Connection And Log In' failed after retrying for 2 minutes. The last error was: SSHException: Incompatible ssh peer (no acceptable kex algorithm)</status>
+</test>
+<doc>This testsuite is for testing SSL connection to OpenBMC.</doc>
+<status endtime="20191018 22:49:41.312" status="FAIL" starttime="20191018 22:49:41.308">Parent suite setup failed:
+Keyword 'Open Connection And Log In' failed after retrying for 2 minutes. The last error was: SSHException: Incompatible ssh peer (no acceptable kex algorithm)</status>
+</suite>
+<status endtime="20191018 22:49:41.314" status="FAIL" starttime="20191018 22:49:41.306">Parent suite setup failed:
+Keyword 'Open Connection And Log In' failed after retrying for 2 minutes. The last error was: SSHException: Incompatible ssh peer (no acceptable kex algorithm)</status>
+</suite>
+<suite name="Test Rest Interfaces" source="/home/alvin/openbmc-test-automation/tests/test_rest_interfaces.robot" id="s1-s1-s2">
+<test name="REST Login Session To BMC" id="s1-s1-s2-t1">
+<doc>Test REST session log-in.</doc>
+<tags>
+<tag>REST_Login_Session_To_BMC</tag>
+</tags>
+<status endtime="20191018 22:49:41.316" status="FAIL" critical="yes" starttime="20191018 22:49:41.316">Parent suite setup failed:
+Keyword 'Open Connection And Log In' failed after retrying for 2 minutes. The last error was: SSHException: Incompatible ssh peer (no acceptable kex algorithm)</status>
+</test>
+<test name="REST Logout Session To BMC" id="s1-s1-s2-t2">
+<doc>Test REST session log-out.</doc>
+<tags>
+<tag>REST_Logout_Session_To_BMC</tag>
+</tags>
+<status endtime="20191018 22:49:41.317" status="FAIL" critical="yes" starttime="20191018 22:49:41.317">Parent suite setup failed:
+Keyword 'Open Connection And Log In' failed after retrying for 2 minutes. The last error was: SSHException: Incompatible ssh peer (no acceptable kex algorithm)</status>
+</test>
+<test name="REST Delete All Sessions And Expect Error" id="s1-s1-s2-t3">
+<doc>Test REST empty cache using delete operation.</doc>
+<tags>
+<tag>REST_Delete_All_Sessions_And_Expect_Error</tag>
+</tags>
+<status endtime="20191018 22:49:41.318" status="FAIL" critical="yes" starttime="20191018 22:49:41.317">Parent suite setup failed:
+Keyword 'Open Connection And Log In' failed after retrying for 2 minutes. The last error was: SSHException: Incompatible ssh peer (no acceptable kex algorithm)</status>
+</test>
+<test name="Multiple Requests On BMC Using Single REST Session" id="s1-s1-s2-t4">
+<doc>Trigger multiple REST operations using an active
+connection session.</doc>
+<tags>
+<tag>Multiple_Requests_On_BMC_Using_Single_REST_Session</tag>
+</tags>
+<status endtime="20191018 22:49:41.319" status="FAIL" critical="yes" starttime="20191018 22:49:41.318">Parent suite setup failed:
+Keyword 'Open Connection And Log In' failed after retrying for 2 minutes. The last error was: SSHException: Incompatible ssh peer (no acceptable kex algorithm)</status>
+</test>
+<test name="Verify REST JSON Data On Success" id="s1-s1-s2-t5">
+<doc>Verify JSON data success response messages.</doc>
+<tags>
+<tag>Verify_REST_JSON_Data_On_Success</tag>
+</tags>
+<status endtime="20191018 22:49:41.320" status="FAIL" critical="yes" starttime="20191018 22:49:41.319">Parent suite setup failed:
+Keyword 'Open Connection And Log In' failed after retrying for 2 minutes. The last error was: SSHException: Incompatible ssh peer (no acceptable kex algorithm)</status>
+</test>
+<test name="Verify REST JSON Data On Failure" id="s1-s1-s2-t6">
+<doc>Verify JSON data failure response messages.</doc>
+<tags>
+<tag>Verify_REST_JSON_Data_On_Failure</tag>
+</tags>
+<status endtime="20191018 22:49:41.321" status="FAIL" critical="yes" starttime="20191018 22:49:41.320">Parent suite setup failed:
+Keyword 'Open Connection And Log In' failed after retrying for 2 minutes. The last error was: SSHException: Incompatible ssh peer (no acceptable kex algorithm)</status>
+</test>
+<test name="Verify REST Get Message JSON Compliant" id="s1-s1-s2-t7">
+<doc>Verify REST "GET" message is JSON format compliant.</doc>
+<tags>
+<tag>Verify_REST_Get_Message_JSON_Compliant</tag>
+</tags>
+<status endtime="20191018 22:49:41.322" status="FAIL" critical="yes" starttime="20191018 22:49:41.321">Parent suite setup failed:
+Keyword 'Open Connection And Log In' failed after retrying for 2 minutes. The last error was: SSHException: Incompatible ssh peer (no acceptable kex algorithm)</status>
+</test>
+<test name="Verify REST Post Message JSON Compliant" id="s1-s1-s2-t8">
+<doc>Verify REST "POST" message is JSON format compliant.</doc>
+<tags>
+<tag>Verify_REST_Post_Message_JSON_Compliant</tag>
+</tags>
+<status endtime="20191018 22:49:41.322" status="FAIL" critical="yes" starttime="20191018 22:49:41.322">Parent suite setup failed:
+Keyword 'Open Connection And Log In' failed after retrying for 2 minutes. The last error was: SSHException: Incompatible ssh peer (no acceptable kex algorithm)</status>
+</test>
+<test name="Verify REST Put Message JSON Compliant" id="s1-s1-s2-t9">
+<doc>Verify REST "PUT" message is JSON format compliant.</doc>
+<tags>
+<tag>REST_Put_Message_JSON_Format_Compliance_Test</tag>
+</tags>
+<status endtime="20191018 22:49:41.323" status="FAIL" critical="yes" starttime="20191018 22:49:41.323">Parent suite setup failed:
+Keyword 'Open Connection And Log In' failed after retrying for 2 minutes. The last error was: SSHException: Incompatible ssh peer (no acceptable kex algorithm)</status>
+</test>
+<doc>Verify REST services Get/Put/Post/Delete.</doc>
+<status endtime="20191018 22:49:41.324" status="FAIL" starttime="20191018 22:49:41.314">Parent suite setup failed:
+Keyword 'Open Connection And Log In' failed after retrying for 2 minutes. The last error was: SSHException: Incompatible ssh peer (no acceptable kex algorithm)</status>
+</suite>
+<suite name="Test Xit" source="/home/alvin/openbmc-test-automation/tests/test_xit.robot" id="s1-s1-s3">
+<test name="Verify No BMC Dump" id="s1-s1-s3-t1">
+<doc>Verify no BMC dump exist.</doc>
+<tags>
+<tag>Verify_No_BMC_Dump</tag>
+</tags>
+<status endtime="20191018 22:49:41.326" status="FAIL" critical="yes" starttime="20191018 22:49:41.326">Parent suite setup failed:
+Keyword 'Open Connection And Log In' failed after retrying for 2 minutes. The last error was: SSHException: Incompatible ssh peer (no acceptable kex algorithm)</status>
+</test>
+<doc>This suite is for disable field mode if enabled.</doc>
+<status endtime="20191018 22:49:41.327" status="FAIL" starttime="20191018 22:49:41.325">Parent suite setup failed:
+Keyword 'Open Connection And Log In' failed after retrying for 2 minutes. The last error was: SSHException: Incompatible ssh peer (no acceptable kex algorithm)</status>
+</suite>
+<doc>Set metadata for test suite.</doc>
+<status endtime="20191018 22:49:41.328" status="FAIL" starttime="20191018 22:47:39.419">Suite setup failed:
+Keyword 'Open Connection And Log In' failed after retrying for 2 minutes. The last error was: SSHException: Incompatible ssh peer (no acceptable kex algorithm)</status>
+</suite>
+<suite name="Redfish" source="/home/alvin/openbmc-test-automation/redfish" id="s1-s2">
+<kw name="Get System Environment" type="setup">
+<doc>System environment details.</doc>
+<kw name="Run Keyword And Ignore Error" library="BuiltIn">
+<doc>Runs the given keyword with the given arguments and ignores possible error.</doc>
+<arguments>
+<arg>Get BMC PNOR Version</arg>
+</arguments>
+<kw name="GET BMC PNOR Version" library="common_utils">
+<doc>Return BMC &amp; PNOR version from openbmc shell.</doc>
+<kw name="Get BMC Version" library="common_utils">
+<doc>Returns BMC version from /etc/os-release.
+e.g. "v1.99.6-141-ge662190"</doc>
+<assign>
+<var>${bmc_version}</var>
+</assign>
+<kw name="Set Variable" library="BuiltIn">
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<arguments>
+<arg>grep ^VERSION_ID= /etc/os-release | cut -f 2 -d '='</arg>
+</arguments>
+<assign>
+<var>${cmd}</var>
+</assign>
+<msg level="INFO" timestamp="20191018 22:49:41.405">${cmd} = grep ^VERSION_ID= /etc/os-release | cut -f 2 -d '='</msg>
+<status endtime="20191018 22:49:41.405" status="PASS" starttime="20191018 22:49:41.404"></status>
+</kw>
+<kw name="Bmc Execute Command" library="bmc_ssh_utils">
+<doc>Run the given command in an BMC SSH session and return the stdout, stderr
+and the return code.</doc>
+<arguments>
+<arg>${cmd}</arg>
+</arguments>
+<assign>
+<var>${output}</var>
+<var>${stderr}</var>
+<var>${rc}</var>
+</assign>
+<msg level="INFO" timestamp="20191018 22:49:41.424">#(CST) 2019/10/18 22:49:41.424156 -  121.825058 - Executing: execute_ssh_command(cmd_buf = u"grep ^VERSION_ID= /etc/os-release | cut -f 2 -d '='", open_connection_args = {'timeout': '25.0', 'prompt': '# ', 'alias': 'bmc_connection', 'host': u'192.168.1.139'}, login_args = {'username': u'root', 'password': u'0penBmc'}, print_out = 0, print_err = 0, ignore_err = 0, fork = 0, quiet = None, test_mode = None, time_out = None)
+</msg>
+<msg level="INFO" timestamp="20191018 22:49:41.439">#(CST) 2019/10/18 22:49:41.439145 -    0.014989 - Issuing: grep ^VERSION_ID= /etc/os-release | cut -f 2 -d '='
+</msg>
+<msg level="INFO" timestamp="20191018 22:49:41.439">#(CST) 2019/10/18 22:49:41.439300 -    0.000155 - Connecting to 192.168.1.139.
+</msg>
+<msg level="INFO" timestamp="20191018 22:49:41.444">#(CST) 2019/10/18 22:49:41.443995 -    0.004695 - Executing: login_ssh(login_args = {'username': u'root', 'password': u'0penBmc'}, max_login_attempts = 5)
+</msg>
+<msg level="INFO" timestamp="20191018 22:49:41.444">newline=
+
+timeout=25 seconds
+escape_ansi=False
+alias=bmc_connection
+term_type=vt100
+path_separator=/
+host=192.168.1.139
+prompt=# 
+index=1
+height=24
+encoding=UTF-8
+port=22
+width=80</msg>
+<msg level="INFO" timestamp="20191018 22:49:41.445">connection:
+  index:                                          1
+  host:                                           192.168.1.139
+  alias:                                          bmc_connection
+  port:                                           22
+  timeout:                                        25.0
+  newline:                                        
+
+  prompt:                                         # 
+  term_type:                                      vt100
+  width:                                          80
+  height:                                         24
+  path_separator:                                 /
+  encoding:                                       UTF-8
+
+</msg>
+<msg level="INFO" timestamp="20191018 22:49:41.445">#(CST) 2019/10/18 22:49:41.444799 -    0.000804 - Logging in to 192.168.1.139.
+</msg>
+<msg level="INFO" timestamp="20191018 22:49:41.453">login_attempt_num:                                1
+</msg>
+<msg level="INFO" timestamp="20191018 22:49:41.453">Logging into '192.168.1.139:22' as 'root'.</msg>
+<msg level="INFO" timestamp="20191018 22:49:41.599">except_type:                                      paramiko.ssh_exception.SSHException
+</msg>
+<msg level="INFO" timestamp="20191018 22:49:41.599">except_value:                                     Incompatible ssh peer (no acceptable kex algorithm)
+</msg>
+<msg level="FAIL" timestamp="20191018 22:49:41.608">#(CST) 2019/10/18 22:49:41.607122 -    0.168074 - **ERROR** The prior SSH command returned a non-zero return code:
+rc:                                               0x0000000000000001
+Incompatible ssh peer (no acceptable kex algorithm)
+: 1 != 0</msg>
+<status endtime="20191018 22:49:41.608" status="FAIL" starttime="20191018 22:49:41.405"></status>
+</kw>
+<status endtime="20191018 22:49:41.608" status="FAIL" starttime="20191018 22:49:41.404"></status>
+</kw>
+<status endtime="20191018 22:49:41.608" status="FAIL" starttime="20191018 22:49:41.403"></status>
+</kw>
+<status endtime="20191018 22:49:41.608" status="PASS" starttime="20191018 22:49:41.403"></status>
+</kw>
+<kw name="Check BMC Performance" library="common_utils">
+<doc>Check BMC basic CPU Mem File system performance.</doc>
+<kw name="Check BMC CPU Performance" library="common_utils">
+<doc>Minimal 10% of proc should be free in 3 sample</doc>
+<kw name="${var} IN RANGE [ 1 | 4 ]" type="for">
+<kw name="${var} = 1" type="foritem">
+<kw name="BMC CPU Performance Check" library="common_utils">
+<doc>Minimal 10% of proc should be free in this instance</doc>
+<kw name="Bmc Execute Command" library="bmc_ssh_utils">
+<doc>Run the given command in an BMC SSH session and return the stdout, stderr
+and the return code.</doc>
+<arguments>
+<arg>${bmc_cpu_usage_cmd}</arg>
+</arguments>
+<assign>
+<var>${bmc_cpu_usage_output}</var>
+<var>${stderr}</var>
+<var>${rc}</var>
+</assign>
+<msg level="INFO" timestamp="20191018 22:49:41.628">#(CST) 2019/10/18 22:49:41.628334 -    0.183535 - Executing: execute_ssh_command(cmd_buf = u'top -n 1 | grep CPU: | cut -c 7-9', open_connection_args = {'timeout': '25.0', 'prompt': '# ', 'alias': 'bmc_connection', 'host': u'192.168.1.139'}, login_args = {'username': u'root', 'password': u'0penBmc'}, print_out = 0, print_err = 0, ignore_err = 0, fork = 0, quiet = None, test_mode = None, time_out = None)
+</msg>
+<msg level="INFO" timestamp="20191018 22:49:41.643">#(CST) 2019/10/18 22:49:41.643309 -    0.014975 - Issuing: top -n 1 | grep CPU: | cut -c 7-9
+</msg>
+<msg level="INFO" timestamp="20191018 22:49:41.644">newline=
+
+timeout=25 seconds
+escape_ansi=False
+alias=bmc_connection
+term_type=vt100
+path_separator=/
+host=192.168.1.139
+prompt=# 
+index=1
+height=24
+encoding=UTF-8
+port=22
+width=80</msg>
+<msg level="INFO" timestamp="20191018 22:49:41.644">#(CST) 2019/10/18 22:49:41.643625 -    0.000316 - Found the following existing connection:
+</msg>
+<msg level="INFO" timestamp="20191018 22:49:41.644">connection:
+  index:                                          1
+  host:                                           192.168.1.139
+  alias:                                          bmc_connection
+  port:                                           22
+  timeout:                                        25.0
+  newline:                                        
+
+  prompt:                                         # 
+  term_type:                                      vt100
+  width:                                          80
+  height:                                         24
+  path_separator:                                 /
+  encoding:                                       UTF-8
+
+</msg>
+<msg level="INFO" timestamp="20191018 22:49:41.644">#(CST) 2019/10/18 22:49:41.644233 -    0.000608 - Switching to existing connection: "bmc_connection".
+</msg>
+<msg level="INFO" timestamp="20191018 22:49:41.654">exec_cmd_attempt_num:                             1
+</msg>
+<msg level="INFO" timestamp="20191018 22:49:41.659">#(CST) 2019/10/18 22:49:41.658509 -    0.014276 - Executing: func_timer_class.run(self = &lt;self&gt;, func = &lt;bound method SSHLibrary.execute_command of &lt;SSHLibrary.library.SSHLibrary object at 0x7f924fa9eb50&gt;&gt;, args = (u'top -n 1 | grep CPU: | cut -c 7-9',), kwargs = {'return_stdout': True, 'return_stderr': True, 'return_rc': True, 'time_out': None})
+</msg>
+<msg level="INFO" timestamp="20191018 22:49:41.659">time_out:                                         None
+</msg>
+<msg level="INFO" timestamp="20191018 22:49:41.769">children:
+</msg>
+<msg level="INFO" timestamp="20191018 22:49:41.770">#(CST) 2019/10/18 22:49:41.769461 -    0.110952 - Calling the user's function.
+</msg>
+<msg level="INFO" timestamp="20191018 22:49:41.770">func_name:                                        execute_command
+</msg>
+<msg level="INFO" timestamp="20191018 22:49:41.786">args:
+  [0]:                                            top -n 1 | grep CPU: | cut -c 7-9
+kwargs:
+  [return_stdout]:                                True
+  [return_stderr]:                                True
+  [return_rc]:                                    True
+</msg>
+<msg level="INFO" timestamp="20191018 22:49:41.786">Executing command 'top -n 1 | grep CPU: | cut -c 7-9'.</msg>
+<msg level="INFO" timestamp="20191018 22:49:41.786">#(CST) 2019/10/18 22:49:41.785792 -    0.016331 - Encountered exception in user's function.
+</msg>
+<msg level="INFO" timestamp="20191018 22:49:41.791">#(CST) 2019/10/18 22:49:41.790588 -    0.004796 - Executing: func_timer_class.cleanup(self = &lt;self&gt;)
+</msg>
+<msg level="INFO" timestamp="20191018 22:49:41.797">self.__child_pid:                                 0
+</msg>
+<msg level="INFO" timestamp="20191018 22:49:41.806">except_type:                                      paramiko.ssh_exception.SSHException
+</msg>
+<msg level="INFO" timestamp="20191018 22:49:41.806">except_value:                                     SSH session not active
+</msg>
+<msg level="INFO" timestamp="20191018 22:49:41.806">#(CST) 2019/10/18 22:49:41.805917 -    0.015329 - Closing all connections.
+</msg>
+<msg level="INFO" timestamp="20191018 22:49:41.806">#(CST) 2019/10/18 22:49:41.806178 -    0.000261 - Connecting to 192.168.1.139.
+</msg>
+<msg level="INFO" timestamp="20191018 22:49:41.811">#(CST) 2019/10/18 22:49:41.811003 -    0.004825 - Executing: login_ssh(login_args = {'username': u'root', 'password': u'0penBmc'}, max_login_attempts = 5)
+</msg>
+<msg level="INFO" timestamp="20191018 22:49:41.811">newline=
+
+timeout=25 seconds
+escape_ansi=False
+alias=bmc_connection
+term_type=vt100
+path_separator=/
+host=192.168.1.139
+prompt=# 
+index=1
+height=24
+encoding=UTF-8
+port=22
+width=80</msg>
+<msg level="INFO" timestamp="20191018 22:49:41.812">connection:
+  index:                                          1
+  host:                                           192.168.1.139
+  alias:                                          bmc_connection
+  port:                                           22
+  timeout:                                        25.0
+  newline:                                        
+
+  prompt:                                         # 
+  term_type:                                      vt100
+  width:                                          80
+  height:                                         24
+  path_separator:                                 /
+  encoding:                                       UTF-8
+
+</msg>
+<msg level="INFO" timestamp="20191018 22:49:41.812">#(CST) 2019/10/18 22:49:41.811712 -    0.000709 - Logging in to 192.168.1.139.
+</msg>
+<msg level="INFO" timestamp="20191018 22:49:41.818">login_attempt_num:                                1
+</msg>
+<msg level="INFO" timestamp="20191018 22:49:41.818">Logging into '192.168.1.139:22' as 'root'.</msg>
+<msg level="INFO" timestamp="20191018 22:49:41.996">except_type:                                      paramiko.ssh_exception.SSHException
+</msg>
+<msg level="INFO" timestamp="20191018 22:49:41.996">except_value:                                     Incompatible ssh peer (no acceptable kex algorithm)
+</msg>
+<msg level="FAIL" timestamp="20191018 22:49:41.997">SSHException: Incompatible ssh peer (no acceptable kex algorithm)</msg>
+<status endtime="20191018 22:49:41.997" status="FAIL" starttime="20191018 22:49:41.610"></status>
+</kw>
+<status endtime="20191018 22:49:41.997" status="FAIL" starttime="20191018 22:49:41.610"></status>
+</kw>
+<status endtime="20191018 22:49:41.997" status="FAIL" starttime="20191018 22:49:41.610"></status>
+</kw>
+<status endtime="20191018 22:49:41.997" status="FAIL" starttime="20191018 22:49:41.609"></status>
+</kw>
+<status endtime="20191018 22:49:41.997" status="FAIL" starttime="20191018 22:49:41.609"></status>
+</kw>
+<status endtime="20191018 22:49:41.998" status="FAIL" starttime="20191018 22:49:41.609"></status>
+</kw>
+<status endtime="20191018 22:49:41.998" status="FAIL" starttime="20191018 22:49:41.402"></status>
+</kw>
+<suite name="Account Service" source="/home/alvin/openbmc-test-automation/redfish/account_service" id="s1-s2-s1">
+<suite name="Test User Account" source="/home/alvin/openbmc-test-automation/redfish/account_service/test_user_account.robot" id="s1-s2-s1-s1">
+<test name="Verify AccountService Available" id="s1-s2-s1-s1-t1">
+<doc>Verify Redfish account service is available.</doc>
+<tags>
+<tag>Verify_AccountService_Available</tag>
+</tags>
+<status endtime="20191018 22:49:42.001" status="FAIL" critical="yes" starttime="20191018 22:49:42.000">Parent suite setup failed:
+SSHException: Incompatible ssh peer (no acceptable kex algorithm)</status>
+</test>
+<doc>Test Redfish user account.</doc>
+<status endtime="20191018 22:49:42.001" status="FAIL" starttime="20191018 22:49:41.999">Parent suite setup failed:
+SSHException: Incompatible ssh peer (no acceptable kex algorithm)</status>
+</suite>
+<status endtime="20191018 22:49:42.002" status="FAIL" starttime="20191018 22:49:41.998">Parent suite setup failed:
+SSHException: Incompatible ssh peer (no acceptable kex algorithm)</status>
+</suite>
+<suite name="Extended" source="/home/alvin/openbmc-test-automation/redfish/extended" id="s1-s2-s2">
+<suite name="Test Basic Ci" source="/home/alvin/openbmc-test-automation/redfish/extended/test_basic_ci.robot" id="s1-s2-s2-s1">
+<test name="Verify Front And Rear LED At Standby" id="s1-s2-s2-s1-t1">
+<doc>Front and Rear LED should be off at standby.</doc>
+<tags>
+<tag>Verify_Front_And_Rear_LED_At_Standby</tag>
+</tags>
+<status endtime="20191018 22:49:42.005" status="FAIL" critical="yes" starttime="20191018 22:49:42.004">Parent suite setup failed:
+SSHException: Incompatible ssh peer (no acceptable kex algorithm)</status>
+</test>
+<test name="Check For Application Failures" id="s1-s2-s2-s1-t2">
+<doc>Parse the journal log and check for failures.</doc>
+<tags>
+<tag>Check_For_Application_Failures</tag>
+</tags>
+<status endtime="20191018 22:49:42.006" status="FAIL" critical="yes" starttime="20191018 22:49:42.005">Parent suite setup failed:
+SSHException: Incompatible ssh peer (no acceptable kex algorithm)</status>
+</test>
+<test name="Verify Uptime Average Against Threshold" id="s1-s2-s2-s1-t3">
+<doc>Compare BMC average boot time to a constant threshold.</doc>
+<tags>
+<tag>Verify_Uptime_Average_Against_Threshold</tag>
+</tags>
+<status endtime="20191018 22:49:42.007" status="FAIL" critical="yes" starttime="20191018 22:49:42.006">Parent suite setup failed:
+SSHException: Incompatible ssh peer (no acceptable kex algorithm)</status>
+</test>
+<test name="Test SSH And IPMI Connections" id="s1-s2-s2-s1-t4">
+<doc>Try SSH and IPMI commands to verify each connection.</doc>
+<tags>
+<tag>Test_SSH_And_IPMI_Connections</tag>
+</tags>
+<status endtime="20191018 22:49:42.008" status="FAIL" critical="yes" starttime="20191018 22:49:42.007">Parent suite setup failed:
+SSHException: Incompatible ssh peer (no acceptable kex algorithm)</status>
+</test>
+<doc>Test for HW CI.</doc>
+<status endtime="20191018 22:49:42.008" status="FAIL" starttime="20191018 22:49:42.004">Parent suite setup failed:
+SSHException: Incompatible ssh peer (no acceptable kex algorithm)</status>
+</suite>
+<status endtime="20191018 22:49:42.009" status="FAIL" starttime="20191018 22:49:42.003">Parent suite setup failed:
+SSHException: Incompatible ssh peer (no acceptable kex algorithm)</status>
+</suite>
+<suite name="Managers" source="/home/alvin/openbmc-test-automation/redfish/managers" id="s1-s2-s3">
+<suite name="Test Managers Bmc" source="/home/alvin/openbmc-test-automation/redfish/managers/test_managers_bmc.robot" id="s1-s2-s3-s1">
+<test name="Verify Redfish BMC Manager Properties" id="s1-s2-s3-s1-t1">
+<doc>Verify BMC managers resource properties.</doc>
+<tags>
+<tag>Verify_Redfish_BMC_Manager_Properties</tag>
+</tags>
+<status endtime="20191018 22:49:42.012" status="FAIL" critical="yes" starttime="20191018 22:49:42.012">Parent suite setup failed:
+SSHException: Incompatible ssh peer (no acceptable kex algorithm)</status>
+</test>
+<doc>Test BMC Manager functionality.</doc>
+<status endtime="20191018 22:49:42.013" status="FAIL" starttime="20191018 22:49:42.011">Parent suite setup failed:
+SSHException: Incompatible ssh peer (no acceptable kex algorithm)</status>
+</suite>
+<status endtime="20191018 22:49:42.014" status="FAIL" starttime="20191018 22:49:42.010">Parent suite setup failed:
+SSHException: Incompatible ssh peer (no acceptable kex algorithm)</status>
+</suite>
+<suite name="Service Root" source="/home/alvin/openbmc-test-automation/redfish/service_root" id="s1-s2-s4">
+<suite name="Test Service Root" source="/home/alvin/openbmc-test-automation/redfish/service_root/test_service_root.robot" id="s1-s2-s4-s1">
+<test name="Redfish Login And Logout" id="s1-s2-s4-s1-t1">
+<doc>Login to BMCweb and then logout.</doc>
+<tags>
+<tag>Redfish_Login_And_Logout</tag>
+</tags>
+<status endtime="20191018 22:49:42.017" status="FAIL" critical="yes" starttime="20191018 22:49:42.016">Parent suite setup failed:
+SSHException: Incompatible ssh peer (no acceptable kex algorithm)</status>
+</test>
+<test name="GET Redfish Hypermedia Without Login" id="s1-s2-s4-s1-t2">
+<doc>GET hypermedia URL without login.</doc>
+<tags>
+<tag>GET_Redfish_Hypermedia_Without_Login</tag>
+</tags>
+<status endtime="20191018 22:49:42.017" status="FAIL" critical="yes" starttime="20191018 22:49:42.017">Parent suite setup failed:
+SSHException: Incompatible ssh peer (no acceptable kex algorithm)</status>
+</test>
+<test name="GET Redfish SessionService Without Login" id="s1-s2-s4-s1-t3">
+<doc>Get /redfish/v1/SessionService without login</doc>
+<tags>
+<tag>GET_Redfish_SessionService_Without_Login</tag>
+</tags>
+<status endtime="20191018 22:49:42.018" status="FAIL" critical="yes" starttime="20191018 22:49:42.018">Parent suite setup failed:
+SSHException: Incompatible ssh peer (no acceptable kex algorithm)</status>
+</test>
+<test name="GET Redfish Resources With Login" id="s1-s2-s4-s1-t4">
+<doc>Login to BMCweb and GET valid resource.</doc>
+<tags>
+<tag>GET_Redfish_Resources_With_Login</tag>
+</tags>
+<status endtime="20191018 22:49:42.019" status="FAIL" critical="yes" starttime="20191018 22:49:42.019">Parent suite setup failed:
+SSHException: Incompatible ssh peer (no acceptable kex algorithm)</status>
+</test>
+<test name="Redfish Login Using Invalid Token" id="s1-s2-s4-s1-t5">
+<doc>Login to BMCweb with invalid token.</doc>
+<tags>
+<tag>Redfish_Login_Using_Invalid_Token</tag>
+</tags>
+<status endtime="20191018 22:49:42.020" status="FAIL" critical="yes" starttime="20191018 22:49:42.019">Parent suite setup failed:
+SSHException: Incompatible ssh peer (no acceptable kex algorithm)</status>
+</test>
+<test name="Delete Redfish Session Using Valid login" id="s1-s2-s4-s1-t6">
+<doc>Delete a session using valid login.</doc>
+<tags>
+<tag>Delete_Redfish_Session_Using_Valid_Login</tag>
+</tags>
+<status endtime="20191018 22:49:42.021" status="FAIL" critical="yes" starttime="20191018 22:49:42.020">Parent suite setup failed:
+SSHException: Incompatible ssh peer (no acceptable kex algorithm)</status>
+</test>
+<doc>Test Redfish to verify responses for SessionService and Hypermedia.</doc>
+<status endtime="20191018 22:49:42.021" status="FAIL" starttime="20191018 22:49:42.015">Parent suite setup failed:
+SSHException: Incompatible ssh peer (no acceptable kex algorithm)</status>
+</suite>
+<suite name="Test Service Root Security" source="/home/alvin/openbmc-test-automation/redfish/service_root/test_service_root_security.robot" id="s1-s2-s4-s2">
+<test name="Redfish Login With Invalid Credentials" id="s1-s2-s4-s2-t1">
+<doc>Login to BMC web using invalid credential.</doc>
+<tags>
+<tag>Redfish_Login_With_Invalid_Credentials</tag>
+</tags>
+<status endtime="20191018 22:49:42.024" status="FAIL" critical="yes" starttime="20191018 22:49:42.024">Parent suite setup failed:
+SSHException: Incompatible ssh peer (no acceptable kex algorithm)</status>
+</test>
+<test name="Redfish Login Using Unsecured HTTP" id="s1-s2-s4-s2-t2">
+<doc>Login to BMC web through http unsecured.</doc>
+<tags>
+<tag>Redfish_Login_Using_Unsecured_HTTP</tag>
+</tags>
+<status endtime="20191018 22:49:42.025" status="FAIL" critical="yes" starttime="20191018 22:49:42.025">Parent suite setup failed:
+SSHException: Incompatible ssh peer (no acceptable kex algorithm)</status>
+</test>
+<doc>Test Redfish service root login security.</doc>
+<status endtime="20191018 22:49:42.026" status="FAIL" starttime="20191018 22:49:42.023">Parent suite setup failed:
+SSHException: Incompatible ssh peer (no acceptable kex algorithm)</status>
+</suite>
+<status endtime="20191018 22:49:42.027" status="FAIL" starttime="20191018 22:49:42.014">Parent suite setup failed:
+SSHException: Incompatible ssh peer (no acceptable kex algorithm)</status>
+</suite>
+<suite name="Systems" source="/home/alvin/openbmc-test-automation/redfish/systems" id="s1-s2-s5">
+<suite name="Test Power Operations" source="/home/alvin/openbmc-test-automation/redfish/systems/test_power_operations.robot" id="s1-s2-s5-s1">
+<test name="Verify Redfish BMC PowerOn" id="s1-s2-s5-s1-t1">
+<doc>Verify Redfish host power on operation.</doc>
+<tags>
+<tag>Verify_Redfish_Host_PowerOn</tag>
+</tags>
+<status endtime="20191018 22:49:42.030" status="FAIL" critical="yes" starttime="20191018 22:49:42.029">Parent suite setup failed:
+SSHException: Incompatible ssh peer (no acceptable kex algorithm)</status>
+</test>
+<test name="Verify Redfish BMC PowerOff" id="s1-s2-s5-s1-t2">
+<doc>Verify Redfish host power off operation.</doc>
+<tags>
+<tag>Verify_Redfish_Host_PowerOff</tag>
+</tags>
+<status endtime="20191018 22:49:42.031" status="FAIL" critical="yes" starttime="20191018 22:49:42.030">Parent suite setup failed:
+SSHException: Incompatible ssh peer (no acceptable kex algorithm)</status>
+</test>
+<doc>This suite tests Redfish Host power operations.</doc>
+<status endtime="20191018 22:49:42.031" status="FAIL" starttime="20191018 22:49:42.029">Parent suite setup failed:
+SSHException: Incompatible ssh peer (no acceptable kex algorithm)</status>
+</suite>
+<status endtime="20191018 22:49:42.032" status="FAIL" starttime="20191018 22:49:42.028">Parent suite setup failed:
+SSHException: Incompatible ssh peer (no acceptable kex algorithm)</status>
+</suite>
+<suite name="Update Service" source="/home/alvin/openbmc-test-automation/redfish/update_service" id="s1-s2-s6">
+<suite name="Test Firmware Inventory" source="/home/alvin/openbmc-test-automation/redfish/update_service/test_firmware_inventory.robot" id="s1-s2-s6-s1">
+<test name="Verify Redfish Update Service Enabled" id="s1-s2-s6-s1-t1">
+<doc>Verify "ServiceEnabled" is enabled.</doc>
+<tags>
+<tag>Verify_Update_Service_Enabled</tag>
+</tags>
+<status endtime="20191018 22:49:42.035" status="FAIL" critical="yes" starttime="20191018 22:49:42.035">Parent suite setup failed:
+SSHException: Incompatible ssh peer (no acceptable kex algorithm)</status>
+</test>
+<test name="Verify Redfish Software Inventory Collection" id="s1-s2-s6-s1-t2">
+<doc>Verify software inventory collection member and object entries.</doc>
+<tags>
+<tag>Verify_Redfish_Software_Inventory_Collection</tag>
+</tags>
+<status endtime="20191018 22:49:42.036" status="FAIL" critical="yes" starttime="20191018 22:49:42.036">Parent suite setup failed:
+SSHException: Incompatible ssh peer (no acceptable kex algorithm)</status>
+</test>
+<test name="Redfish Software Inventory Status Check" id="s1-s2-s6-s1-t3">
+<doc>Get firmware inventory entries and do health check status.</doc>
+<tags>
+<tag>Redfish_Software_Inventory_Status_Check</tag>
+</tags>
+<status endtime="20191018 22:49:42.037" status="FAIL" critical="yes" starttime="20191018 22:49:42.037">Parent suite setup failed:
+SSHException: Incompatible ssh peer (no acceptable kex algorithm)</status>
+</test>
+<doc>Verify that Redfish software inventory can be collected.</doc>
+<status endtime="20191018 22:49:42.038" status="FAIL" starttime="20191018 22:49:42.034">Parent suite setup failed:
+SSHException: Incompatible ssh peer (no acceptable kex algorithm)</status>
+</suite>
+<status endtime="20191018 22:49:42.039" status="FAIL" starttime="20191018 22:49:42.033">Parent suite setup failed:
+SSHException: Incompatible ssh peer (no acceptable kex algorithm)</status>
+</suite>
+<doc>Get system environment for test suite.</doc>
+<status endtime="20191018 22:49:42.040" status="FAIL" starttime="20191018 22:49:41.331">Suite setup failed:
+SSHException: Incompatible ssh peer (no acceptable kex algorithm)</status>
+</suite>
+<status endtime="20191018 22:49:42.043" status="FAIL" starttime="20191018 22:47:39.400"></status>
+</suite>
+<statistics>
+<total>
+<stat pass="0" fail="30">Critical Tests</stat>
+<stat pass="0" fail="30">All Tests</stat>
+</total>
+<tag>
+<stat pass="0" fail="1">Check_For_Application_Failures</stat>
+<stat pass="0" fail="1">Delete_Redfish_Session_Using_Valid_Login</stat>
+<stat pass="0" fail="1">GET_Redfish_Hypermedia_Without_Login</stat>
+<stat pass="0" fail="1">GET_Redfish_Resources_With_Login</stat>
+<stat pass="0" fail="1">GET_Redfish_SessionService_Without_Login</stat>
+<stat pass="0" fail="1">Multiple_Requests_On_BMC_Using_Single_REST_Session</stat>
+<stat pass="0" fail="1">Redfish_Login_And_Logout</stat>
+<stat pass="0" fail="1">Redfish_Login_Using_Invalid_Token</stat>
+<stat pass="0" fail="1">Redfish_Login_Using_Unsecured_HTTP</stat>
+<stat pass="0" fail="1">Redfish_Login_With_Invalid_Credentials</stat>
+<stat pass="0" fail="1">Redfish_Software_Inventory_Status_Check</stat>
+<stat pass="0" fail="1">REST_Delete_All_Sessions_And_Expect_Error</stat>
+<stat pass="0" fail="1">REST_Login_Session_To_BMC</stat>
+<stat pass="0" fail="1">REST_Logout_Session_To_BMC</stat>
+<stat pass="0" fail="1">REST_Put_Message_JSON_Format_Compliance_Test</stat>
+<stat pass="0" fail="1">Test_SSH_And_IPMI_Connections</stat>
+<stat pass="0" fail="1">Test_SSL_Connection</stat>
+<stat pass="0" fail="1">Verify_AccountService_Available</stat>
+<stat pass="0" fail="1">Verify_Front_And_Rear_LED_At_Standby</stat>
+<stat pass="0" fail="1">Verify_No_BMC_Dump</stat>
+<stat pass="0" fail="1">Verify_Redfish_BMC_Manager_Properties</stat>
+<stat pass="0" fail="1">Verify_Redfish_Host_PowerOff</stat>
+<stat pass="0" fail="1">Verify_Redfish_Host_PowerOn</stat>
+<stat pass="0" fail="1">Verify_Redfish_Software_Inventory_Collection</stat>
+<stat pass="0" fail="1">Verify_REST_Get_Message_JSON_Compliant</stat>
+<stat pass="0" fail="1">Verify_REST_JSON_Data_On_Failure</stat>
+<stat pass="0" fail="1">Verify_REST_JSON_Data_On_Success</stat>
+<stat pass="0" fail="1">Verify_REST_Post_Message_JSON_Compliant</stat>
+<stat pass="0" fail="1">Verify_Update_Service_Enabled</stat>
+<stat pass="0" fail="1">Verify_Uptime_Average_Against_Threshold</stat>
+</tag>
+<suite>
+<stat name="Tests &amp; Redfish" pass="0" id="s1" fail="30">Tests &amp; Redfish</stat>
+<stat name="Tests" pass="0" id="s1-s1" fail="11">Tests &amp; Redfish.Tests</stat>
+<stat name="Security" pass="0" id="s1-s1-s1" fail="1">Tests &amp; Redfish.Tests.Security</stat>
+<stat name="Test Ssl" pass="0" id="s1-s1-s1-s1" fail="1">Tests &amp; Redfish.Tests.Security.Test Ssl</stat>
+<stat name="Test Rest Interfaces" pass="0" id="s1-s1-s2" fail="9">Tests &amp; Redfish.Tests.Test Rest Interfaces</stat>
+<stat name="Test Xit" pass="0" id="s1-s1-s3" fail="1">Tests &amp; Redfish.Tests.Test Xit</stat>
+<stat name="Redfish" pass="0" id="s1-s2" fail="19">Tests &amp; Redfish.Redfish</stat>
+<stat name="Account Service" pass="0" id="s1-s2-s1" fail="1">Tests &amp; Redfish.Redfish.Account Service</stat>
+<stat name="Test User Account" pass="0" id="s1-s2-s1-s1" fail="1">Tests &amp; Redfish.Redfish.Account Service.Test User Account</stat>
+<stat name="Extended" pass="0" id="s1-s2-s2" fail="4">Tests &amp; Redfish.Redfish.Extended</stat>
+<stat name="Test Basic Ci" pass="0" id="s1-s2-s2-s1" fail="4">Tests &amp; Redfish.Redfish.Extended.Test Basic Ci</stat>
+<stat name="Managers" pass="0" id="s1-s2-s3" fail="1">Tests &amp; Redfish.Redfish.Managers</stat>
+<stat name="Test Managers Bmc" pass="0" id="s1-s2-s3-s1" fail="1">Tests &amp; Redfish.Redfish.Managers.Test Managers Bmc</stat>
+<stat name="Service Root" pass="0" id="s1-s2-s4" fail="8">Tests &amp; Redfish.Redfish.Service Root</stat>
+<stat name="Test Service Root" pass="0" id="s1-s2-s4-s1" fail="6">Tests &amp; Redfish.Redfish.Service Root.Test Service Root</stat>
+<stat name="Test Service Root Security" pass="0" id="s1-s2-s4-s2" fail="2">Tests &amp; Redfish.Redfish.Service Root.Test Service Root Security</stat>
+<stat name="Systems" pass="0" id="s1-s2-s5" fail="2">Tests &amp; Redfish.Redfish.Systems</stat>
+<stat name="Test Power Operations" pass="0" id="s1-s2-s5-s1" fail="2">Tests &amp; Redfish.Redfish.Systems.Test Power Operations</stat>
+<stat name="Update Service" pass="0" id="s1-s2-s6" fail="3">Tests &amp; Redfish.Redfish.Update Service</stat>
+<stat name="Test Firmware Inventory" pass="0" id="s1-s2-s6-s1" fail="3">Tests &amp; Redfish.Redfish.Update Service.Test Firmware Inventory</stat>
+</suite>
+</statistics>
+<errors>
+</errors>
+</robot>
